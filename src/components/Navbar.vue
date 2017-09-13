@@ -32,23 +32,28 @@
 </template>
 <script>
   export default {
-    data(){
-      return {
-      }
+    data() {
+      return {}
     },
-    computed:{
+    computed: {
       //侧边栏展开关闭的判断值
-      changeOpen(){
+      changeOpen() {
         return this.$store.state.isopen
       }
     }
   }
 </script>
-<style>
-.mdui-drawer{
-  margin-top:56px;
-  background-color: #fff;
-}
+<style scoped>
+  /*<style>*/
+  html {
+    font-size: 100px;
+    height: 100%;
+  }
+
+  .mdui-drawer {
+    margin-top: 56px;
+    background-color: #fff;
+  }
 </style>
 
 <!--mdui-drawer-close-->

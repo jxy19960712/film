@@ -34,12 +34,18 @@
         this.$store.commit('actionSearch', {state: true, content: this.centerSearchtext})
         //跳转list页面
         this.$router.push('/list')
-        this.centerSearchtext=''
+        this.centerSearchtext = ''
       }
     }
   }
 </script>
-<style>
+<style scoped>
+  /*<style>*/
+  html {
+    font-size: 100px;
+    height: 100%;
+  }
+
   .mdui-color-topbar {
     background-color: #333;
     color: #fff;

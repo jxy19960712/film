@@ -1,56 +1,80 @@
 <template>
-  <div class="mdui-container movieListBox"
-       :class="{
-  'movieMoveBox':!ismove
-  }">
-    <div class="detailContnet">
-      <img src="../assets/images/conan.jpg" alt="">
-      <table class="detailMessage">
-        <tr>
-          <th>
-            电影名称
-          </th>
-          <th>
-            类型
-          </th>
-          <th>
-            主演
-          </th>
-        </tr>
-        <tr>
-          <td>
-            {{detailData.name}}
-          </td>
-          <td>
-            {{detailData.category}}
-          </td>
-          <td>
-            {{detailData.zhuyan}}
-          </td>
-        </tr>
-      </table>
-      <div class="mdui-row-xs-2">
-        <div class="loadBox">
-          <p class="loadTitle">下载链接:</p>
-          <div class="loadItem" v-for="value in detailData.detail">
-            <p>{{value.description}}</p>
-            <span v-if="value.size">大小:{{value.size}}</span>
-            <a class="mdui-btn mdui-btn-block mdui-color-theme-accent mdui-ripple loadColor"
-               :href="value.downloadUrl"
-               :thurl="value.downloadUrl">
-              <i class="mdui-icon material-icons">&#xe157;</i>
-              {{value.description}}
-            </a>
+  <section>
+    <div class="loading"
+         v-if="loading"
+    >
+      <div class="loadingControllerBox">
+        <div data-v-b6682622="" class="mdui-spinner">
+          <div class="mdui-spinner-layer ">
+            <div class="mdui-spinner-circle-clipper mdui-spinner-left">
+              <div class="mdui-spinner-circle"></div>
+            </div>
+            <div class="mdui-spinner-gap-patch">
+              <div class="mdui-spinner-circle"></div>
+            </div>
+            <div class="mdui-spinner-circle-clipper mdui-spinner-right">
+              <div class="mdui-spinner-circle"></div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+    <div class="mdui-container movieListBox"
+         :class="{
+  'movieMoveBox':!ismove
+  }">
+      <div class="detailContnet">
+        <img src="../assets/images/conan.jpg" alt="">
+        <table class="detailMessage">
+          <tr>
+            <th>
+              电影名称
+            </th>
+            <th>
+              类型
+            </th>
+            <th>
+              主演
+            </th>
+          </tr>
+          <tr>
+            <td>
+              {{detailData.name}}
+            </td>
+            <td>
+              {{detailData.category}}
+            </td>
+            <td>
+              {{detailData.zhuyan}}
+            </td>
+          </tr>
+        </table>
+        <div class="mdui-row-xs-2">
+          <div class="loadBox">
+            <p class="loadTitle">下载链接:</p>
+            <div class="loadItem" v-for="value in detailData.detail">
+              <p>{{value.description}}</p>
+              <span v-if="value.size">大小:{{value.size}}</span>
+              <a class="mdui-btn mdui-btn-block mdui-color-theme-accent mdui-ripple loadColor"
+                 :href="value.downloadUrl"
+                 :thurl="value.downloadUrl">
+                <i class="mdui-icon material-icons">&#xe157;</i>
+                下载链接
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </template>
 <script>
   import axios from 'axios'
+
   export default {
     created() {
+      this.loading=true
       axios({
         url: '/api/d',
         method: 'post',
@@ -71,11 +95,13 @@
       })
         .then((response) => {
           this.detailData = response.data
+          this.loading=false
         })
     },
     data() {
       return {
-        detailData: {}
+        detailData: {},
+        loading:false
       }
 
     },
@@ -86,7 +112,13 @@
     }
   }
 </script>
-<style>
+<style scoped>
+  /*<style>*/
+  html {
+    font-size: 100px;
+    height: 100%;
+  }
+
   .movieListBox {
     width: 100%;
     padding-top: 0.66rem;
@@ -133,8 +165,8 @@
   }
 
   .loadItem {
-    margin-bottom:0.25rem;
-    margin-top:0.25rem;
+    margin-bottom: 0.25rem;
+    margin-top: 0.25rem;
     border: 1px solid #ccc;
     overflow: hidden;
   }
@@ -182,5 +214,26 @@
     text-indent: 2em;
     height: 0.4rem;
     line-height: 0.4rem;
+  }
+
+  .loading {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    z-index: 1;
+  }
+
+  .loading .loadingControllerBox {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%);
+  }
+
+  .mdui-spinner {
+    width: 0.5rem;
+    height: 0.5rem;
   }
 </style>

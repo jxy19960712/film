@@ -1,42 +1,66 @@
 <template>
-  <div class="mdui-container movieListBox"
-       :class="{
+  <section>
+    <div class="loading"
+         v-if="loading"
+    >
+      <div class="loadingControllerBox">
+        <div data-v-b6682622="" class="mdui-spinner">
+          <div class="mdui-spinner-layer ">
+            <div class="mdui-spinner-circle-clipper mdui-spinner-left">
+              <div class="mdui-spinner-circle"></div>
+            </div>
+            <div class="mdui-spinner-gap-patch">
+              <div class="mdui-spinner-circle"></div>
+            </div>
+            <div class="mdui-spinner-circle-clipper mdui-spinner-right">
+              <div class="mdui-spinner-circle"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mdui-container movieListBox"
+         :class="{
   'movieMoveBox':!ismove
   }"
-  >
-    <div class="mdui-row-xs-3 mdui-row-sm-4 mdui-row-md-5 mdui-row-lg-6 mdui-row-xl-7 mdui-grid-list movieList">
-      <router-link :to="{path:'/detail',query: {id: value.id}}" class="mdui-col detailLink"
-                   v-for="(value,index) in listdata"
-                   tag="a"
-                   v-if="index < pagenum*pagesize && index >= (pagenum-1)*pagesize"
-      >
-        <div class="mdui-grid-tile">
-          <img src="../assets/images/film.jpg"/>
-        </div>
-        <p class="moveMessage">{{value.name}}</p>
-      </router-link>
+    >
+      <div class="mdui-row-xs-3 mdui-row-sm-4 mdui-row-md-5 mdui-row-lg-6 mdui-row-xl-7 mdui-grid-list movieList">
+        <router-link :to="{path:'/detail',query: {id: value.id}}" class="mdui-col detailLink"
+                     v-for="(value,index) in listdata"
+                     tag="a"
+                     v-if="index < pagenum*pagesize && index >= (pagenum-1)*pagesize"
+        >
+          <div class="mdui-grid-tile">
+            <img src="../assets/images/film.jpg"/>
+          </div>
+          <p class="moveMessage">{{value.name}}</p>
+        </router-link>
+      </div>
+      <div class="pageItemBox" v-if="Math.floor(listdata.length/pagesize) > 1">
+        <button class="mdui-btn"
+                :disabled="pagenum <= 1"
+                @click="previousPage()"
+        >上一页
+        </button>
+        <select class="mdui-select"
+                v-model="pagenum"
+                @change="pageChange"
+        >
+          <option
+            v-for="(valueS,indexS) in Math.floor(listdata.length/pagesize)"
+            :value="indexS+1"
+          >第{{indexS+1}}页
+          </option>
+        </select>
+        <button class="mdui-btn"
+                :disabled="pagenum >= Math.floor(listdata.length/pagesize)"
+                @click="nextPage()"
+        >下一页
+        </button>
+      </div>
     </div>
-    <div class="pageItemBox" v-if="Math.floor(listdata.length/pagesize) > 1">
-      <button class="mdui-btn"
-              :disabled="pagenum <= 1"
-              @click="previousPage"
-      >上一页
-      </button>
-      <select class="mdui-select"
-              v-model="pagenum"
-              >
-        <option
-                v-for="(valueS,indexS) in Math.floor(listdata.length/pagesize)"
-                :value="indexS+1"
-        >第{{indexS+1}}页</option>
-      </select>
-      <button class="mdui-btn"
-              :disabled="pagenum >= Math.floor(listdata.length/pagesize)"
-              @click="nextPage"
-      >下一页
-      </button>
-    </div>
-  </div>
+  </section>
+
 </template>
 <script>
   import axios from 'axios'
@@ -51,6 +75,7 @@
     },
     methods: {
       searchAxios() {
+        this.loading=true
         this.listdata = []
         axios({
           url: '/api/search',
@@ -73,14 +98,22 @@
           .then((response) => {
             console.log(response);
             this.listdata = response.data
+            this.loading=false
           })
         this.$store.state.searched.state = false
       },
       previousPage() {
+        document.documentElement.scrollTop=0
+        document.body.scrollTop=0
         this.pagenum--
       },
       nextPage() {
+        document.documentElement.scrollTop=0
+        document.body.scrollTop=0
         this.pagenum++
+      },
+      pageChange(){
+        document.documentElement.scrollTop=0
       }
     },
     data() {
@@ -90,6 +123,7 @@
         searched: this.$store.state.searched,
         pagesize: 10,
         pagenum: 1,
+        loading: false
       }
     },
     computed: {
@@ -111,13 +145,20 @@
     }
   }
 </script>
-<style>
+<style scoped>
+  /*<style>*/
+  html {
+    font-size: 100px;
+    height: 100%;
+  }
+
   .movieListBox {
     width: 100%;
     padding-top: 0.66rem;
     transform: translateZ(0);
     transition: 0.5s;
     overflow: hidden;
+    /*height: 100%;*/
   }
 
   .movieMoveBox {
@@ -128,6 +169,7 @@
     padding-right: 0;
     overflow: hidden;
     box-sizing: border-box;
+    /*height: 100%;*/
   }
 
   .movieList {
@@ -172,6 +214,27 @@
 
   .pageItemBox {
     text-align: center;
-    padding-bottom:0.40rem;
+    padding-bottom: 0.40rem;
+  }
+
+  .loading {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    z-index: 1;
+  }
+
+  .loading .loadingControllerBox {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%);
+  }
+
+  .mdui-spinner {
+    width: 0.5rem;
+    height: 0.5rem;
   }
 </style>

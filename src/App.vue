@@ -9,8 +9,9 @@
 <script>
   import topbar from './components/Topbar.vue'
   import navbar from './components/Navbar.vue'
+
   export default {
-    components:{
+    components: {
       topbar,
       navbar
     }
@@ -18,6 +19,8 @@
 </script>
 
 <style>
+
+
 
   html {
     font-size: 100px;
@@ -33,7 +36,7 @@
     src: url('./assets/font/TotalEclipse.ttf');
   }
 
-  .container{
+  .container {
     height: 100%;
   }
 </style>

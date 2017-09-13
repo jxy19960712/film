@@ -84,7 +84,7 @@
       },
       searching() {
         //改变状态中acntionSearch的值,并传递搜索框值
-        this.$store.commit('actionSearch', {state: true, content:this.centerSearchtext})
+        this.$store.commit('actionSearch', {state: true, content: this.centerSearchtext})
         //跳转list页面
         this.$router.push('/list')
       }
@@ -92,6 +92,18 @@
   }
 </script>
 <style>
+  /*<style>*/
+  html {
+    font-size: 100px;
+    height: 100%;
+  }
+
+  @media screen  and (max-width: 768px) {
+    html {
+      font-size: 50px;
+    }
+  }
+
   section {
     height: 100%;
     padding-top: 0.56rem;
@@ -146,27 +158,27 @@
   }
 
   .indexSearch {
-    height: 0.5rem;
-    border: solid 0.02rem #333;
-    text-indent: 1em;
-    font-size: 0.2rem;
-    border-radius: 0.10rem;
-    transition: all 0.3s;
-    width: 100%;
+    height: 0.5rem!important;
+    border: solid 0.02rem #333!important;
+    text-indent: 1em!important;
+    font-size: 0.2rem!important;
+    border-radius: 0.10rem!important;
+    transition: all 0.3s!important;
+    width: 100%!important;
   }
 
   .indexsearchBox {
-    margin: 1.23rem auto auto auto;
-    width: 5rem;
+    margin: 1.23rem auto auto auto!important;
+    width: 5rem!important;
 
   }
 
   .indexSearchbutton {
-    position: absolute;
-    right: 0.07rem;
-    top: 0.07rem;
-    width: 0.36rem;
-    height: 0.36rem;
+    position: absolute!important;
+    right: 0.07rem!important;
+    top: 0.07rem!important;
+    width: 0.36rem!important;
+    height: 0.36rem!important;
   }
 
   .indexSearchbutton i {
@@ -175,16 +187,12 @@
   }
 
   .indexSearchbuttonFocus {
-    color: hotpink;
+    color: hotpink!important;
   }
 
   .indexSearchFocus {
-    border-color: hotpink;
+    border-color: hotpink!important;
   }
 
-  @media screen  and (max-width: 768px) {
-    html {
-      font-size: 50px;
-    }
-  }
-</style>
+
+</style>!important;
