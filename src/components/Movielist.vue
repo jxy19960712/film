@@ -19,22 +19,30 @@
         </div>
       </div>
     </div>
-    <div class="mdui-container movieListBox"
+    <div class="movieListBox"
          :class="{
   'movieMoveBox':!ismove
   }"
     >
-      <div class="mdui-row-xs-3 mdui-row-sm-4 mdui-row-md-5 mdui-row-lg-6 mdui-row-xl-7 mdui-grid-list movieList">
-        <router-link :to="{path:'/detail',query: {id: value.id}}" class="mdui-col detailLink"
-                     v-for="(value,index) in listdata"
-                     tag="a"
-                     v-if="index < pagenum*pagesize && index >= (pagenum-1)*pagesize"
-        >
-          <div class="mdui-grid-tile">
-            <img src="../assets/images/film.jpg"/>
-          </div>
-          <p class="moveMessage">{{value.name}}</p>
-        </router-link>
+      <!--<div class="mdui-row-xs-3 mdui-row-sm-4 mdui-row-md-5 mdui-row-lg-5 mdui-row-xl-7 mdui-grid-list movieList">-->
+      <div class="movieList">
+        <div class="movieListItem"
+             v-if="index < pagenum*pagesize && index >= (pagenum-1)*pagesize"
+             v-for="(value,index) in listdata">
+          <router-link :to="{path:'/detail',query: {id: value.id}}" class="detailLink"
+                       tag="a"
+
+          >
+            <div class="mdui-grid-tile">
+              <img src="../assets/images/film.jpg"/>
+            </div>
+            <p class="moveMessage">{{value.name}}</p>
+          </router-link>
+        </div>
+        <div class="notFound"
+          v-if="listdata.length <= 0"
+        ><img style="border-radius:0%;vertical-align: middle;border: 5px solid #000;" src="../assets/images/dog2.png"><p>陛下对不起，小的未能找到您要的内容...</p></div>
+
       </div>
       <div class="pageItemBox" v-if="Math.floor(listdata.length/pagesize) > 1">
         <button class="mdui-btn"
@@ -153,8 +161,7 @@
   }
 
   .movieListBox {
-    width: 100%;
-    padding-top: 0.66rem;
+    /*padding-top: 0.66rem;*/
     transform: translateZ(0);
     transition: 0.5s;
     overflow: hidden;
@@ -162,8 +169,7 @@
   }
 
   .movieMoveBox {
-    padding-top: 0.66rem;
-    max-width: none;
+    /*padding-top: 0.66rem;*/
     transform: translateZ(0);
     padding-left: 2.4rem;
     padding-right: 0;
@@ -176,26 +182,35 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    box-sizing: border-box;
+    padding:0 10%;
   }
 
   @media screen  and (max-width: 768px) {
     .movieListBox {
-      padding-top: 66px;
+      padding-top: 0.6rem;
       padding-left: 0;
       padding-right: 0;
     }
 
     .movieMoveBox {
-      padding-top: 66px;
+      padding-top: 0.6rem;
       max-width: none;
       transform: translateZ(0);
       padding-left: 0;
       padding-right: 0;
     }
+    .movieListItem{
+      width: 50%!important;
+      box-sizing: border-box;
+      padding: 0.1rem;
+    }
   }
 
-  .mdui-col {
-    margin: 0 0.10rem !important;
+  .movieListItem{
+    width: 20%;
+    box-sizing: border-box;
+    padding: 0.1rem;
   }
 
   .moveMessage {
@@ -236,5 +251,10 @@
   .mdui-spinner {
     width: 0.5rem;
     height: 0.5rem;
+  }
+
+  .notFound{
+    font-size:0.3rem;
+    margin-top:0.3rem;
   }
 </style>
